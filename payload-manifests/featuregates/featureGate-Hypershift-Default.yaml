@@ -38,6 +38,9 @@
                         "name": "DNSNameResolver"
                     },
                     {
+                        "name": "DyanmicServiceEndpointIBMCloud"
+                    },
+                    {
                         "name": "DynamicResourceAllocation"
                     },
                     {
