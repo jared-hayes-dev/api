@@ -22,9 +22,6 @@
                         "name": "ClusterAPIInstallIBMCloud"
                     },
                     {
-                        "name": "DyanmicServiceEndpointIBMCloud"
-                    },
-                    {
                         "name": "EventedPLEG"
                     },
                     {
@@ -97,6 +94,9 @@
                     },
                     {
                         "name": "DisableKubeletCloudCredentialProviders"
+                    },
+                    {
+                        "name": "DyanmicServiceEndpointIBMCloud"
                     },
                     {
                         "name": "DynamicResourceAllocation"
