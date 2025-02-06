@@ -1700,10 +1700,10 @@ type IBMCloudServiceEndpoint struct {
 	//
 	// +required
 	// +kubebuilder:validation:Type=string
-	// +kubebuilder:validation:XValidation:rule="isURL(self)",message="url must be a valid absolute URL"
-	// +kubebuilder:validation:XValidation:rule="url(self).getScheme() == \"https\"",message="url scheme must be https"
-	// +kubebuilder:validation:XValidation:rule="url(self).getEscapedPath().matches('\/(api\/)?v\d+\/{0,1}')",message="url path must match /v[0,9]+ or /api/v[0,9]+"
 	// +kubebuilder:validation:MaxLength=300
+	// +kubebuilder:validation:XValidation:rule="isURL(self)",message="url must be a valid absolute URL"
+	// +openshift:validation:FeatureGateAwareXValidation:featureGate=DyanmicServiceEndpointIBMCloud,rule="url(self).getScheme() == \"https\"",message="url must use https scheme"
+	// +openshift:validation:FeatureGateAwareXValidation:featureGate=DyanmicServiceEndpointIBMCloud,rule=`matches((url(self).getEscapedPath()), '^/(api/)?v[0-9]+/{0,1}$')`,message="url path must match /v[0,9]+ or /api/v[0,9]+"
 	URL string `json:"url"`
 }
 
@@ -1716,11 +1716,12 @@ type IBMCloudPlatformSpec struct {
 	// overriden. The CCCMO reads in the IBMCloudPlatformSpec and validates each
 	// endpoint is resolvable. Once validated, the cloud config and IBMCloudPlatformStatus
 	// are updated to reflect the same custom endpoints.
-	// A maximum of 25 service endpoints are supported.
+	// A maximum of 13 service endpoints overrides are supported.
+	// +kubebuilder:validation:MaxItems=13
 	// +listType=map
 	// +listMapKey=name
-	// +kubebuilder:validation:MaxItems:=25
 	// +optional
+	// +openshift:enable:FeatureGate=DyanmicServiceEndpointIBMCloud
 	ServiceEndpoints []IBMCloudServiceEndpoint `json:"serviceEndpoints,omitempty"`
 }
 
@@ -1749,9 +1750,9 @@ type IBMCloudPlatformStatus struct {
 	// overriden. The CCCMO reads in the IBMCloudPlatformSpec and validates each
 	// endpoint is resolvable. Once validated, the cloud config and IBMCloudPlatformStatus
 	// are updated to reflect the same custom endpoints.
+	// +openshift:validation:FeatureGateAwareMaxItems:featureGate=DyanmicServiceEndpointIBMCloud,maxItems=13
 	// +listType=map
 	// +listMapKey=name
-	// +kubebuilder:validation:MaxItems:=25
 	// +optional
 	ServiceEndpoints []IBMCloudServiceEndpoint `json:"serviceEndpoints,omitempty"`
 }
